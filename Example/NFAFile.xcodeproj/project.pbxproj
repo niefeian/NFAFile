@@ -43,10 +43,10 @@
 		607FACE51AFB9204008FA782 /* NFAFile_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NFAFile_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
-		682621E51A88C70B1E82AFFE /* NFAFile.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = NFAFile.podspec; path = ../NFAFile.podspec; sourceTree = "<group>"; };
-		BA3A5AA5A7C6B526C054B90B /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		682621E51A88C70B1E82AFFE /* NFAFile.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = NFAFile.podspec; path = ../NFAFile.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		BA3A5AA5A7C6B526C054B90B /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		EF52727F4B9DF10DD03B848D /* Pods-NFAFile_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NFAFile_Tests.debug.xcconfig"; path = "Target Support Files/Pods-NFAFile_Tests/Pods-NFAFile_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		F1DF702A217C77E1A7C43204 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		F1DF702A217C77E1A7C43204 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,7 +77,6 @@
 				EF52727F4B9DF10DD03B848D /* Pods-NFAFile_Tests.debug.xcconfig */,
 				03BE9368F9AD5423D9D36179 /* Pods-NFAFile_Tests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -228,6 +227,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
