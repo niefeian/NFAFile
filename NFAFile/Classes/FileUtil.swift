@@ -10,6 +10,10 @@ import Foundation
 import AVFoundation
 import UIKit
 
+
+public enum FileType {
+      case log , video
+}
 open class FileUtil {
     
     
@@ -17,8 +21,7 @@ open class FileUtil {
     
     /// 默认缩放到屏幕宽度
     open class func defaultImageScale(_ sourceImage : UIImage) -> UIImage {
-//        return imageScale(sourceImage, scaledToWidth : UIScreen.mainScreen().applicationFrame.width)
-    return imageScale(sourceImage, scaledToWidth: 960)
+        return imageScale(sourceImage, scaledToWidth: 960)
     }
     
     open class func imageScale(_ sourceImage : UIImage, scaledToWidth i_width : CGFloat) -> UIImage {
@@ -39,25 +42,7 @@ open class FileUtil {
         return newImage!
     }
     
-    
-    open class func getFilesPath(_ createPath : String, isDir : Bool = true) -> String {
-        let appPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] 
-        var filesPath = appPath + ("/" + createPath)
-        if isDir {
-            filesPath = filesPath + "/"
-        }
-        let fileMan = FileManager.default
-        var isDir : ObjCBool = true
-        if !fileMan.fileExists(atPath: filesPath, isDirectory: &isDir) {
-            do {
-                try fileMan.createDirectory(atPath: filesPath, withIntermediateDirectories: true, attributes: nil)
-            } catch {
-                print("create dir error")
-            }
-        }
-        return filesPath
-    }
-    
+
     
     /// 彻底清除文件夹,异步:清理缓存用
     open class func cleanFolder(_ path: String = cachesPath, size : Double? = 0, complete:@escaping () -> ()) {
@@ -93,14 +78,12 @@ open class FileUtil {
     open class func fileSize(_ path: String) -> Double {
         let fileManager = FileManager.default
         if fileManager.fileExists(atPath: path) {
-            var dict = try? fileManager.attributesOfItem(atPath: path)
+            let dict = try? fileManager.attributesOfItem(atPath: path)
             if let fileSize = dict![FileAttributeKey.size] as? Int{
                 let d = Double(fileSize) / 1024.0 / 1024.0
-                
                 return d
             }
         }
-        
         return 0.0
     }
     
@@ -123,51 +106,45 @@ open class FileUtil {
         return 0
     }
     
-    /// 缓存oss的图片：存放在Library/Caches/Oss/image/.../图片
-    class func cacheOssImage(_ data : Data, url : String) {
-        let appPath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)[0] as String
-        // 建立oss下的图片目录
-
-        let paths = url.components(separatedBy: "/")
-        let count = paths.count
-        var appendFile = "/Oss/image/"
-        for i in 0 ..< count {
-            if i != count - 1 {
-                appendFile += paths[i] + "/"
-            }
-        }
-
-        let filesPath = appPath + appendFile
-        let fileMan = FileManager.default
-        var isDir : ObjCBool = true
-        if !fileMan.fileExists(atPath: filesPath, isDirectory: &isDir) {
-            do {
-                try fileMan.createDirectory(atPath: filesPath, withIntermediateDirectories: true, attributes: nil)
-            } catch {
-                print("create dir error")
-            }
-        }
-        do {
-            try data.write(to: URL(fileURLWithPath: filesPath + "/" + paths.last!), options: NSData.WritingOptions.atomicWrite)
-        } catch let e {
-            print(e)
+    open class func getFilesPath(_ createPath : String, isDir : Bool = true) -> String? {
+         let addlast =  isDir ? "/":""
+         return getPath(file:cachesPath + "/" + createPath + addlast)
+    }
+    
+    open class func getPath(_ fileType : FileType , isDir : Bool = true) -> String?{
+        let addlast =  isDir ? "/":""
+        switch fileType {
+        case .log:
+            return getPath(file:cachesPath + "/logs" + addlast)
+        case .video:
+            return getPath(file:cachesPath + "/video" + addlast)
         }
     }
     
-    /// 获取oss下载下来的缓存图片。存放在Library/Caches/Oss/image/.../图片
-    class func getOssCacheImage(_ url : String) -> Data? {
-        let appPath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)[0] as String
-        // 建立oss下的图片目录
-        
-        let paths = url.components(separatedBy: "/")
-        let count = paths.count
-        var appendFile = "/Oss/image"
-        for i in 0 ..< count {
-            appendFile += "/" + paths[i]
+    open class func getPath(file : String) -> String? {
+        if fileExists(file) {
+            return file
+        }else{
+            return nil
         }
-        let filesPath = appPath + appendFile
-        let data = try? Data(contentsOf: URL(fileURLWithPath: filesPath))
-        return data
     }
+    
+    
+    open class func fileExists(_ filesPath : String) -> Bool{
+         let fileMan = FileManager.default
+         var isDir : ObjCBool = true
+         if !fileMan.fileExists(atPath: filesPath, isDirectory: &isDir) {
+             do {
+                 try fileMan.createDirectory(atPath: filesPath, withIntermediateDirectories: true, attributes: nil)
+             } catch {
+                   #if DEBUG
+                   print("create dir error")
+                   #endif
+                return false
+             }
+         }
+        return  true
+    }
+    
     
 }
