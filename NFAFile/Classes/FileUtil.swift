@@ -10,10 +10,10 @@ import Foundation
 import AVFoundation
 import UIKit
 
-
 public enum FileType {
       case log , video
 }
+
 open class FileUtil {
     
     
